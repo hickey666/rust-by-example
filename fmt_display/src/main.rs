@@ -1,4 +1,4 @@
-use std::fmt;
+use std::fmt::{self};
 
 // 定义一个结构体，为它实现 `fmt::Display`。下面是个简单的元组结构体
 // `Structure`，包含一个 `i32` 元素。
@@ -41,6 +41,23 @@ impl fmt::Display for Point2D {
     }
 }
 
+struct List(Vec<i32>);
+
+impl fmt::Display for List {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let vec = &self.0;
+
+        write!(f, "[")?;
+
+        for (count, v) in vec.iter().enumerate() {
+            if count != 0 { write!(f, ", ")?; }
+            write!(f, "{}: {}", count, v)?;
+        }
+
+        write!(f, "]")
+    }
+}
+
 fn main() {
     let minmax = MinMax(0, 14);
 
@@ -58,4 +75,7 @@ fn main() {
     println!("Compare points:");
     println!("Display: {}", point);
     println!("Debug: {:?}", point);
+
+    let v = List(vec![1, 2, 3]);
+    println!("{}", v);
 }
